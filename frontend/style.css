@@ -1,0 +1,158 @@
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+.upload-area {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: float 3s ease-in-out infinite;
+}
+.upload-area:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+}
+.upload-area.drag-over {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #d4e6f1 0%, #a9cce3 100%);
+    border-color: #1a5276;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* پلاک دقیقاً مثل تصویر شما */
+.plate {
+    width: 600px;
+    height: 150px;
+    background: #ffffff;
+    border: 6px solid #111;
+    border-radius: 12px;
+    display: flex;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* نوار آبی سمت چپ (با متن عمودی) */
+.blue-section {
+    width: 110px;
+    background: #0b3d91;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+/* پرچم ایران */
+.flag {
+    width: 55px;
+    height: 35px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+}
+
+.flag div {
+    height: 33.33%;
+}
+
+.green { background: #239f40; }
+.white { background: #ffffff; }
+.red { background: #da0000; }
+
+/* نوشته های I.R IRAN (عمودی) */
+.country {
+    text-orientation: upright;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* قسمت اصلی پلاک */
+.main-area {
+    flex: 1;
+    border-left: 6px solid #111;
+    display: flex;
+    background: #ffffff;
+}
+
+/* کاراکترهای پلاک (برای بخش اصلی) */
+.plate-chars {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    direction: rtl;
+    color: #000;
+}
+
+/* باکس ایران سمت راست */
+.right-box {
+    width: 120px;
+    border-left: 6px solid #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    direction: ltr;
+    color: #000;
+}
+
+/* نوشته "ایران" */
+.iran {
+    font-size: 28px;
+    font-weight: bold;
+    text-orientation: upright;
+    margin-bottom: 10px;
+}
+
+/* دو رقم اخر پلاک زیر "ایران" */
+.last-two {
+    font-size: 28px;
+    font-weight: bold;
+    direction: ltr;
+}
+
+.loading-spinner {
+    border: 5px solid rgba(102, 126, 234, 0.2);
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

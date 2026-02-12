@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پلاک‌خوان هوش مصنوعی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+      <!-- Header -->
+      <header class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">
+          پلاک‌خوان هوش مصنوعی
+        </h1>
+        <p class="text-xl text-white/90">تشخیص خودکار پلاک خودرو با دقت بالا</p>
+      </header>
+
+      <!-- Main Card -->
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Upload Area -->
+        <div
+          id="drop-area"
+          class="upload-area border-4 border-dashed border-blue-400 rounded-xl p-12 md:p-16 text-center cursor-pointer bg-gradient-to-br from-blue-50 to-purple-50/20"
+        >
+          <div class="text-blue-500 mb-4">
+            <i
+              class="fas fa-cloud-upload-alt text-5xl md:text-6xl animate-bounce"
+            ></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-3">
+            📸 عکس پلاک را اینجا بکشید
+          </h2>
+          <p class="text-gray-600 mb-4 text-lg">
+            یا کلیک کنید و فایل را انتخاب کنید
+          </p>
+          <p
+            class="text-sm text-gray-500 bg-gray-100 inline-block px-4 py-1 rounded-full"
+          >
+            <i class="fas fa-check-circle text-green-500 ml-1"></i>
+            پشتیبانی از فرمت‌های JPG و PNG
+          </p>
+          <input
+            type="file"
+            id="file-input"
+            accept="image/jpeg,image/png"
+            class="hidden"
+          />
+        </div>
+
+        <!-- Preview Image -->
+        <img
+          id="preview"
+          src=""
+          alt="پیش‌نمایش تصویر"
+          class="max-w-full rounded-lg mx-auto my-6 hidden border-4 border-blue-200"
+        />
+
+        <!-- Loading State -->
+        <div id="loading" class="hidden text-center py-12">
+          <div class="loading-spinner mb-4"></div>
+          <p class="text-xl font-semibold text-gray-800">
+            در حال پردازش تصویر...
+          </p>
+          <p class="text-gray-500 mt-2">لطفاً چند ثانیه صبر کنید</p>
+        </div>
+
+        <!-- Error State -->
+        <div
+          id="error"
+          class="hidden bg-red-50 border-l-4 border-red-500 p-5 rounded-lg mx-6 mb-6"
+        >
+          <div class="flex items-start">
+            <div class="flex-shrink-0 text-red-500 mt-1">
+              <i class="fas fa-exclamation-triangle text-2xl"></i>
+            </div>
+            <div class="mr-3">
+              <h3 class="text-lg font-semibold text-red-800 mb-1">
+                خطا در پردازش
+              </h3>
+              <p id="error-message" class="text-red-700">
+                اتصال به سرور برقرار نشد. آیا سرور در حال اجراست؟
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Result -->
+        <div id="result" class="hidden py-6 px-4">
+          <div
+            class="bg-green-50 border-l-4 border-green-500 p-5 rounded-lg mb-6"
+          >
+            <div class="flex items-center">
+              <div class="bg-green-100 text-green-600 p-2 rounded-full mr-3">
+                <i class="fas fa-check-circle text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-green-800">
+                  پلاک با موفقیت شناسایی شد!
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 gap-4 mb-8 px-4">
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"
+            >
+              <div class="text-sm text-gray-500 mb-1">تعداد کاراکترها</div>
+              <div class="text-2xl font-bold text-blue-600">
+                <span id="char-count">8</span>
+                <span class="text-lg text-gray-500 mr-1">عدد</span>
+              </div>
+            </div>
+            <div
+              class="bg-white p-4 rounded-lg shadow-sm border border-gray-200"
+            >
+              <div class="text-sm text-gray-500 mb-1">میزان اعتماد</div>
+              <div class="text-2xl font-bold text-green-600">
+                <span id="confidence">92.3</span>
+                <span class="text-lg text-gray-500 mr-1">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- پلاک دقیقاً مثل تصویر شما -->
+          <div class="plate" dir="ltr">
+            <div class="blue-section">
+              <div class="flag">
+                <div class="green"></div>
+                <div class="white"></div>
+                <div class="red"></div>
+              </div>
+              <div class="country">IRAN</div>
+            </div>
+
+            <div class="main-area">
+              <div class="plate-chars" id="main-plate-chars">
+                <!-- کاراکترهای اصلی پلاک (به جز دو رقم اخر) -->
+              </div>
+            </div>
+
+            <div class="right-box">
+              <div class="iran">ایران</div>
+              <div class="last-two" id="last-two-chars">
+                <!-- دو رقم اخر پلاک -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="px-6 pb-6 space-y-4">
+          <button
+            id="submit-btn"
+            disabled
+            class="btn-primary w-full text-white font-bold py-4 px-6 rounded-xl text-lg shadow-lg disabled:opacity-50"
+          >
+            <i class="fas fa-search ml-2"></i>
+            تشخیص پلاک
+          </button>
+          <button
+            id="clear-btn"
+            class="hidden w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-6 rounded-xl text-lg shadow transition-all"
+          >
+            <i class="fas fa-redo ml-2"></i>
+            بارگذاری پلاک جدید
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="text-center mt-10 text-white/80 text-sm">
+        <p>پروژه پلاک خوان خودکار با هوش مصنوعی</p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
